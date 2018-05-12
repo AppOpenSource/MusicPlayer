@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,33 +20,30 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
+import com.abt.player.adapter.MusicListAdapter;
+import com.abt.player.R;
+
 import java.io.File;
 
-public class ArtistActivity extends Activity {
+public class AlbumActivity extends Activity {
     private int[] _ids;
     private String[] _titles;
     private String[] _path;
     private ListView listview;
     private int pos;
-    private String artistName;
+    private String albumName;
     private MusicListAdapter adapter;
-    /*�����Ĳ˵���*/
     private static final int PLAY_ITEM = Menu.FIRST;
     private static final int DELETE_ITEM = Menu.FIRST + 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // hwq
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Intent intent = this.getIntent();
-        if (intent.getExtras().getString("artist").equals("Unknown Artist")) {
-            artistName = "<unknown>";
-        } else {
-            artistName = intent.getExtras().getString("artist");
-        }
+        albumName = intent.getExtras().getString("albums");
         listview = new ListView(this);
 
         // hwq
@@ -64,7 +61,7 @@ public class ArtistActivity extends Activity {
     }
 
     private void playMusic(int position) {
-        Intent intent = new Intent(ArtistActivity.this, MusicActivity.class);
+        Intent intent = new Intent(AlbumActivity.this, MusicActivity.class);
         intent.putExtra("_ids", _ids);
         intent.putExtra("_titles", _titles);
         intent.putExtra("position", position);
@@ -90,6 +87,7 @@ public class ArtistActivity extends Activity {
             // TODO Auto-generated method stub
             playMusic(position);
         }
+
     }
 
     class ContextMenuListener implements OnCreateContextMenuListener {
@@ -113,8 +111,8 @@ public class ArtistActivity extends Activity {
 
             case DELETE_ITEM:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Are you really want to delete ? ")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setMessage("are you really want to delete ? ")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -124,7 +122,7 @@ public class ArtistActivity extends Activity {
                                 adapter.notifyDataSetChanged();
                             }
                         })
-                        .setNegativeButton("No", null);
+                        .setNegativeButton("NO", null);
                 AlertDialog ad = builder.create();
                 ad.show();
                 break;
@@ -140,7 +138,7 @@ public class ArtistActivity extends Activity {
                         MediaStore.Audio.Media._ID,
                         MediaStore.Audio.Media.DISPLAY_NAME,
                         MediaStore.Audio.Media.DATA},
-                MediaStore.Audio.Media.ARTIST + "='" + artistName + "'",
+                MediaStore.Audio.Media.ALBUM + "='" + albumName + "'",
                 null,
                 null);
         c.moveToFirst();
@@ -150,7 +148,7 @@ public class ArtistActivity extends Activity {
         for (int i = 0; i < c.getCount(); i++) {
             _ids[i] = c.getInt(3);
             _titles[i] = c.getString(0);
-            _path[i] = c.getString(5).substring(4);
+            _path[i] = c.getString(5);
             c.moveToNext();
         }
         adapter = new MusicListAdapter(this, c);

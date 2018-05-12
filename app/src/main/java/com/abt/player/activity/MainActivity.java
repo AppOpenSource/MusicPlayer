@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.abt.player.R;
+import com.abt.player.receiver.ScanSdReceiver;
 
 public class MainActivity extends Activity {
     private ListView listview = null;

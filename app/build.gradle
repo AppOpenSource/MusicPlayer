@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.abt.mp3player"
-        minSdkVersion 5
-        targetSdkVersion 5
+        minSdkVersion 19
+        targetSdkVersion 23
     }
 
     buildTypes {

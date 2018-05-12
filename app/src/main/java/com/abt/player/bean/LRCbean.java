@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.bean;
 
 public class LRCbean {
     private int beginTime = 0;

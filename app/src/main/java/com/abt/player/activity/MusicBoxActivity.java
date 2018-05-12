@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.activity;
 
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -26,11 +26,18 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TabHost;
 
+import com.abt.player.R;
+import com.abt.player.adapter.AlbumListAdapter;
+import com.abt.player.adapter.ArtistListAdapter;
+import com.abt.player.adapter.MusicListAdapter;
+import com.abt.player.global.GlobalConstant;
+import com.abt.player.receiver.ScanSdReceiver;
+import com.abt.player.service.MusicService;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-
 
 public class MusicBoxActivity extends TabActivity implements TabHost.TabContentFactory {
 
@@ -40,28 +47,24 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
     private String[] _titles;
     private String[] albums;
     private String[] artists;
-    private String[] _path; // �����ļ���·��
-    private int pos; // ���ڲ������ֵ�λ��
-    private int num; // ѡ��ĸ�����λ��
+    private String[] _path;
+    private int pos;
+    private int num;
     private MusicListAdapter adapter;
     private ScanSdReceiver scanSdReceiver = null;
     private AlertDialog ad = null;
     private AlertDialog.Builder builder = null;
     private Cursor mCursor;
     private String tag;
-    /* �����Ĳ˵��� */
     private static final int PLAY_ITEM = Menu.FIRST;
     private static final int DELETE_ITEM = Menu.FIRST + 1;
-    // ���������ı���
     private AudioManager mAudioManager = null;
-    private int maxVolume;// �������
-    private int currentVolume;// ��ǰ����
+    private int maxVolume;
+    private int currentVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //ȥ��title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         TabHost th = getTabHost();
@@ -69,12 +72,10 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         th.addTab(th.newTabSpec("artists").setIndicator("Artist List").setContent(this));
         th.addTab(th.newTabSpec("albums").setIndicator("Album").setContent(this));
 
-        // �����Ƿ��������ڲ���
-        Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        Intent intent = new Intent(this, MusicService.class);
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("list", 1);
         startService(intent);
-
     }
 
     @Override
@@ -91,7 +92,6 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         if (tag.equals("list")) {
             listview = new ListView(this);
             setListData();
-            // hwq ���listview����ʱ��Ļ�������
             listview.setCacheColorHint(0);
             listview.setOnItemClickListener(new ListItemClickListener());
             listview.setOnCreateContextMenuListener(new ContextMenuListener());

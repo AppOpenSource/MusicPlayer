@@ -1,13 +1,15 @@
-package com.abt.mp3player;
+package com.abt.player.listener;
 
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
+import com.abt.player.activity.MusicActivity;
 
-public class ChangeGestureDetector extends SimpleOnGestureListener {
+
+public class ChangeGestureListener extends SimpleOnGestureListener {
     MusicActivity activity;
 
-    public ChangeGestureDetector(MusicActivity activity) {
+    public ChangeGestureListener(MusicActivity activity) {
         this.activity = activity;
     }
 

@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.receiver;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.widget.Toast;
+
+import com.abt.player.activity.MainActivity;
 
 public class ScanSdReceiver extends BroadcastReceiver {
 

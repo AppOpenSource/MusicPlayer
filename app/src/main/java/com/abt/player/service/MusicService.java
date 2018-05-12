@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -15,6 +15,8 @@ import android.os.IBinder;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
+
+import com.abt.player.DBHelper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -60,9 +62,6 @@ public class MusicService extends Service implements
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(this);
 
-        /**
-         * ע�����������
-         */
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.ANSWER");
         registerReceiver(InComingSMSReceiver, filter);
@@ -95,9 +94,6 @@ public class MusicService extends Service implements
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
 
-        /**
-         * ��ʼ��mMediaPlayer
-         */
         if (intent != null) {
             if ((flag == 0) && (intent.getExtras().getInt("list") == 1)) {
                 System.out.println("Service flag=0");
@@ -149,9 +145,6 @@ public class MusicService extends Service implements
             System.out.println("Service position:" + position);
         }
 
-        /**
-         * ��ʼ����ͣ��ֹͣ
-         */
         int op = intent.getIntExtra("op", -1);
         if (op != -1) {
             switch (op) {
@@ -333,25 +326,17 @@ public class MusicService extends Service implements
         init();
         play();
 
-        // ֪ͨ�����б����
         Intent intent = new Intent();
         intent.setAction(MUSIC_LIST);
         intent.putExtra("position", position);
         sendBroadcast(intent);
 
-        // ֪ͨ���Ž������
         Intent intent1 = new Intent();
         intent1.setAction(MUSIC_UPDATE);
         intent1.putExtra("position", position);
         sendBroadcast(intent1);
-
     }
 
-    /**
-     * ���ݿ����
-     *
-     * @param pos
-     */
     private void DBOperate(int pos) {
         dbHelper = new DBHelper(this, "music.db", null, 2);
         Cursor c = dbHelper.query(pos);
@@ -383,9 +368,6 @@ public class MusicService extends Service implements
         }
     }
 
-    /**
-     * ����㲥������
-     */
     protected BroadcastReceiver InComingSMSReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

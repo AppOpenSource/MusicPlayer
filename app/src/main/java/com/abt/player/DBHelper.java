@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player;
 
 import android.content.ContentValues;
 import android.content.Context;

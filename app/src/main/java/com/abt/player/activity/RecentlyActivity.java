@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,11 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 
-public class ClicksActivity extends Activity {
+import com.abt.player.DBHelper;
+import com.abt.player.adapter.MusicListAdapter;
+import com.abt.player.R;
+
+public class RecentlyActivity extends Activity {
     private DBHelper dbHelper = null;
     private ListView listview;
     private int[] _ids;
@@ -50,7 +54,7 @@ public class ClicksActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dbHelper = new DBHelper(this, "music.db", null, 2);
-        cursor = dbHelper.queryByClicks();
+        cursor = dbHelper.queryRecently();
         cursor.moveToFirst();
         int num;
         if (cursor != null) {
@@ -104,11 +108,11 @@ public class ClicksActivity extends Activity {
         for (int i = 0; i < c.getCount(); i++) {
             _ids[i] = c.getInt(3);
             _titles[i] = c.getString(0);
+
             c.moveToNext();
         }
         listview.setAdapter(new MusicListAdapter(this, c));
         listview.setOnItemClickListener(new ListItemClickListener());
-
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
         currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
@@ -125,11 +129,10 @@ public class ClicksActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
             // TODO Auto-generated method stub
-            Intent intent = new Intent(ClicksActivity.this, MusicActivity.class);
+            Intent intent = new Intent(RecentlyActivity.this, MusicActivity.class);
             intent.putExtra("_ids", _ids);
             intent.putExtra("_titles", _titles);
             intent.putExtra("position", position);
-
             startActivity(intent);
             finish();
         }
@@ -175,5 +178,3 @@ public class ClicksActivity extends Activity {
         }
     }
 }
-
-

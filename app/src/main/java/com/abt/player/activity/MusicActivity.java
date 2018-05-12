@@ -1,4 +1,4 @@
-package com.abt.mp3player;
+package com.abt.player.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -21,6 +21,13 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
+import com.abt.player.global.GlobalConstant;
+import com.abt.player.listener.ChangeGestureListener;
+import com.abt.player.DBHelper;
+import com.abt.player.bean.LRCbean;
+import com.abt.player.R;
+import com.abt.player.service.MusicService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -103,7 +110,7 @@ public class MusicActivity extends Activity {
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
         currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
-        gestureDetector = new GestureDetector(new ChangeGestureDetector(this));    //����ʶ��
+        gestureDetector = new GestureDetector(new ChangeGestureListener(this));    //����ʶ��
         playBtn = (ImageButton) findViewById(R.id.playBtn);
         playBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -212,10 +219,10 @@ public class MusicActivity extends Activity {
         seekbar.setProgress(0);
         //int pos = _ids[position];
         name.setText(_titles[position] + " - " + artists[position]);//���ø�����
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("_ids", _ids);
         intent.putExtra("position", position);
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         startService(intent);
     }
 

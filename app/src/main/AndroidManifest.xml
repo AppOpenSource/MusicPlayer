@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.abt.mp3player"
+    package="com.abt.player"
     android:versionCode="1"
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-sdk android:minSdkVersion="5" />
 
     <application
         android:icon="@drawable/app_music"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:name=".MusicApplication" >
 
-        <activity android:name="com.abt.mp3player.MainActivity">
+        <activity android:name="com.abt.player.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,29 +20,29 @@
         </activity>
 
         <activity
-            android:name="com.abt.mp3player.ClicksActivity"
+            android:name="com.abt.player.activity.ClicksActivity"
             android:label="Recent frequently play list">
         </activity>
 
         <activity
-            android:name="com.abt.mp3player.RecentlyActivity"
+            android:name="com.abt.player.activity.RecentlyActivity"
             android:label="Recent play list">
         </activity>
 
-        <activity android:name="com.abt.mp3player.MusicActivity"></activity>
+        <activity android:name="com.abt.player.activity.MusicActivity"></activity>
 
-        <activity android:name="com.abt.mp3player.MusicBoxActivity">
-        </activity>
+        <activity android:name="com.abt.player.activity.MusicBoxActivity"></activity>
 
-        <activity android:name="com.abt.mp3player.ArtistActivity"></activity>
+        <activity android:name="com.abt.player.activity.ArtistActivity"></activity>
 
-        <activity android:name="com.abt.mp3player.AlbumActivity"></activity>
+        <activity android:name="com.abt.player.activity.AlbumActivity"></activity>
 
-        <service android:name="com.abt.mp3player.MusicService">
+        <service android:name="com.abt.player.service.MusicService">
             <intent-filter>
-                <action android:name="com.moore.mp3player.MUSIC_SERVICE" />
+                <action android:name="com.abt.player.MUSIC_SERVICE" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
