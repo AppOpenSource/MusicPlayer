@@ -138,7 +138,7 @@ public class MusicActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 if (fromUser) {
-                    seekbar_change(progress);
+                    seekbarChange(progress);
                 }
             }
         });
@@ -251,7 +251,7 @@ public class MusicActivity extends AppCompatActivity {
     private void pause() {
         flag = STATE_PAUSE;
         playBtn.setBackgroundResource(R.drawable.play_selecor);
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, MusicService.class);
         intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_PAUSE);
         startService(intent);
@@ -259,14 +259,14 @@ public class MusicActivity extends AppCompatActivity {
 
     private void stop() {
         unregisterReceiver(musicReceiver);
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, MusicService.class);
         intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_STOP);
         startService(intent);
     }
 
-    private void seekbar_change(int progress) {
-        Intent intent = new Intent();
+    private void seekbarChange(int progress) {
+        Intent intent = new Intent(this, MusicService.class);
         intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", PROGRESS_CHANGE);
         intent.putExtra("progress", progress);
@@ -274,14 +274,14 @@ public class MusicActivity extends AppCompatActivity {
     }
 
     private void rewind() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, MusicService.class);
         intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_REWIND);
         startService(intent);
     }
 
     private void forward() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, MusicService.class);
         intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_FORWARD);
         startService(intent);
@@ -326,7 +326,7 @@ public class MusicActivity extends AppCompatActivity {
             if (action.equals(MUSIC_CURRENT)) {
                 currentPosition = intent.getExtras().getInt("currentTime");//��õ�ǰ����λ��
                 playtime.setText(toTime(currentPosition));
-                seekbar.setProgress(currentPosition);//���ý�����
+                seekbar.setProgress(currentPosition);
                 Iterator<Integer> iterator = lrc_map.keySet().iterator();
                 while (iterator.hasNext()) {
                     Object o = iterator.next();
@@ -424,27 +424,27 @@ public class MusicActivity extends AppCompatActivity {
         try {
             while ((data = br.readLine()) != null) {
                 if (data.length() > 6) {
-                    if (data.charAt(3) == ':' && data.charAt(6) == '.') {//�Ӹ�����Ŀ�ʼ
+                    if (data.charAt(3) == ':' && data.charAt(6) == '.') {
                         data = data.replace("[", "");
                         data = data.replace("]", "@");
                         data = data.replace(".", ":");
                         String lrc[] = data.split("@");
                         String lrcContent = null;
                         if (lrc.length == 2) {
-                            lrcContent = lrc[lrc.length - 1];//���
+                            lrcContent = lrc[lrc.length - 1];
                         } else {
                             lrcContent = "";
                         }
                         String lrcTime[] = lrc[0].split(":");
 
-                        int m = Integer.parseInt(lrcTime[0]);//��
-                        int s = Integer.parseInt(lrcTime[1]);//��
-                        int ms = Integer.parseInt(lrcTime[2]);//����
+                        int m = Integer.parseInt(lrcTime[0]);
+                        int s = Integer.parseInt(lrcTime[1]);
+                        int ms = Integer.parseInt(lrcTime[2]);
 
-                        int begintime = (m * 60 + s) * 1000 + ms;//ת���ɺ���
+                        int begintime = (m * 60 + s) * 1000 + ms;
                         LRCbean lrcbean = new LRCbean();
-                        lrcbean.setBeginTime(begintime);//���ø�ʿ�ʼʱ��
-                        lrcbean.setLrcBody(lrcContent);//���ø�ʵ�����
+                        lrcbean.setBeginTime(begintime);
+                        lrcbean.setLrcBody(lrcContent);
                         lrc_read.put(begintime, lrcbean);
                     }
                 }
