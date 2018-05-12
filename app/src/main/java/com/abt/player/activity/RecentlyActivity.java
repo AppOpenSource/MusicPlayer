@@ -66,7 +66,7 @@ public class RecentlyActivity extends Activity {
         if (num >= 10) {
             for (int i = 0; i < 10; i++) {
                 music_id = new int[10];
-                music_id[i] = cursor.getInt(cursor.getColumnIndex("music_id"));
+                music_id[i] = cursor.getInt(cursor.getColumnIndex("mMusicId"));
                 if (i < 9) {
                     idString = idString + music_id[i] + ",";
                 } else {
@@ -77,7 +77,7 @@ public class RecentlyActivity extends Activity {
         } else if (num > 0) {
             for (int i = 0; i < num; i++) {
                 music_id = new int[num];
-                music_id[i] = cursor.getInt(cursor.getColumnIndex("music_id"));
+                music_id[i] = cursor.getInt(cursor.getColumnIndex("mMusicId"));
                 if (i < num - 1) {
                     idString = idString + music_id[i] + ",";
                 } else {

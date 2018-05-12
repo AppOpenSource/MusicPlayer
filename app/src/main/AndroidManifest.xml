@@ -21,24 +21,24 @@
         </activity>
 
         <activity
-            android:name="com.abt.player.activity.ClicksActivity"
+            android:name=".activity.ClicksActivity"
             android:label="Recent frequently play list">
         </activity>
 
         <activity
-            android:name="com.abt.player.activity.RecentlyActivity"
+            android:name=".activity.RecentlyActivity"
             android:label="Recent play list">
         </activity>
 
-        <activity android:name="com.abt.player.activity.MusicActivity"></activity>
+        <activity android:name=".activity.MusicActivity"></activity>
 
-        <activity android:name="com.abt.player.activity.MusicBoxActivity"></activity>
+        <activity android:name=".activity.MusicBoxActivity"></activity>
 
-        <activity android:name="com.abt.player.activity.ArtistActivity"></activity>
+        <activity android:name=".activity.ArtistActivity"></activity>
 
-        <activity android:name="com.abt.player.activity.AlbumActivity"></activity>
+        <activity android:name=".activity.AlbumActivity"></activity>
 
-        <service android:name="com.abt.player.service.MusicService">
+        <service android:name=".service.MusicService">
             <intent-filter>
                 <action android:name="com.abt.player.MUSIC_SERVICE" />
             </intent-filter>

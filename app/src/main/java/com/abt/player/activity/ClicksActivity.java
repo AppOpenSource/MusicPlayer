@@ -1,100 +1,84 @@
 package com.abt.player.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 
 import com.abt.player.DBHelper;
-import com.abt.player.adapter.MusicListAdapter;
 import com.abt.player.R;
+import com.abt.player.adapter.MusicListAdapter;
 
-public class ClicksActivity extends Activity {
-    private DBHelper dbHelper = null;
-    private ListView listview;
-    private int[] _ids;
+public class ClicksActivity extends AppCompatActivity {
+
+    private DBHelper mDbHelper = null;
+    private ListView mListView;
     private String[] _titles;
-    Cursor cursor = null;
-    int[] music_id;
-    //���������ı���
+    private Cursor mCursor = null;
     private AudioManager mAudioManager = null;
-    private int maxVolume;//�������
-    private int currentVolume;//��ǰ����
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (dbHelper != null) {
-            dbHelper.close();
-            dbHelper = null;
-        }
-        if (cursor != null) {
-            cursor.close();
-            cursor = null;
-        }
-    }
+    private int[] _ids;
+    private int[] mMusicId;
+    private int mMaxVolume;
+    private int mCurrentVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
-        // hwq
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        dbHelper = new DBHelper(this, "music.db", null, 2);
-        cursor = dbHelper.queryByClicks();
-        cursor.moveToFirst();
+        mDbHelper = new DBHelper(this, "music.db", null, 2);
+        mCursor = mDbHelper.queryByClicks();
+        mCursor.moveToFirst();
         int num;
-        if (cursor != null) {
-            num = cursor.getCount();
+        if (mCursor != null) {
+            num = mCursor.getCount();
         } else {
             return;
         }
         String idString = "";
         if (num >= 10) {
             for (int i = 0; i < 10; i++) {
-                music_id = new int[10];
-                music_id[i] = cursor.getInt(cursor.getColumnIndex("music_id"));
+                mMusicId = new int[10];
+                mMusicId[i] = mCursor.getInt(mCursor.getColumnIndex("mMusicId"));
                 if (i < 9) {
-                    idString = idString + music_id[i] + ",";
+                    idString = idString + mMusicId[i] + ",";
                 } else {
-                    idString = idString + music_id[i];
+                    idString = idString + mMusicId[i];
                 }
-                cursor.moveToNext();
+                mCursor.moveToNext();
             }
         } else if (num > 0) {
             for (int i = 0; i < num; i++) {
-                music_id = new int[num];
-                music_id[i] = cursor.getInt(cursor.getColumnIndex("music_id"));
+                mMusicId = new int[num];
+                mMusicId[i] = mCursor.getInt(mCursor.getColumnIndex("mMusicId"));
                 if (i < num - 1) {
-                    idString = idString + music_id[i] + ",";
+                    idString = idString + mMusicId[i] + ",";
                 } else {
-                    idString = idString + music_id[i];
+                    idString = idString + mMusicId[i];
                 }
-                cursor.moveToNext();
+                mCursor.moveToNext();
             }
         }
-        if (cursor != null) {
-            cursor.close();
-            cursor = null;
+        if (mCursor != null) {
+            mCursor.close();
+            mCursor = null;
         }
-        if (dbHelper != null) {
-            dbHelper.close();
-            dbHelper = null;
+        if (mDbHelper != null) {
+            mDbHelper.close();
+            mDbHelper = null;
         }
-        listview = new ListView(this);
+        mListView = new ListView(this);
         Cursor c = this.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.DURATION,
@@ -110,34 +94,43 @@ public class ClicksActivity extends Activity {
             _titles[i] = c.getString(0);
             c.moveToNext();
         }
-        listview.setAdapter(new MusicListAdapter(this, c));
-        listview.setOnItemClickListener(new ListItemClickListener());
+        mListView.setAdapter(new MusicListAdapter(this, c));
+        mListView.setOnItemClickListener(new ListItemClickListener());
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
-        currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
+        mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
+        mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
         LinearLayout list = new LinearLayout(this);
         list.setBackgroundResource(R.drawable.listbg);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        list.addView(listview, params);
+        list.addView(mListView, params);
         setContentView(list);
     }
 
-    class ListItemClickListener implements OnItemClickListener {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mDbHelper != null) {
+            mDbHelper.close();
+            mDbHelper = null;
+        }
+        if (mCursor != null) {
+            mCursor.close();
+            mCursor = null;
+        }
+    }
 
+    class ListItemClickListener implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-            // TODO Auto-generated method stub
             Intent intent = new Intent(ClicksActivity.this, MusicActivity.class);
             intent.putExtra("_ids", _ids);
             intent.putExtra("_titles", _titles);
             intent.putExtra("position", position);
-
             startActivity(intent);
             finish();
         }
-
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -156,21 +149,21 @@ public class ClicksActivity extends Activity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_UP) {
-                    if (currentVolume < maxVolume) {
-                        currentVolume = currentVolume + 1;
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+                    if (mCurrentVolume < mMaxVolume) {
+                        mCurrentVolume = mCurrentVolume + 1;
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
                     } else {
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
                     }
                 }
                 return false;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_UP) {
-                    if (currentVolume > 0) {
-                        currentVolume = currentVolume - 1;
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+                    if (mCurrentVolume > 0) {
+                        mCurrentVolume = mCurrentVolume - 1;
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
                     } else {
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
                     }
                 }
                 return false;
