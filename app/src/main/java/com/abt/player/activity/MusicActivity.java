@@ -46,16 +46,15 @@ public class MusicActivity extends Activity {
     private String _titles[] = null;
     private String artists[] = null;
     private Uri uri;
-    private ImageButton playBtn = null;//���š���ͣ
-    //private Button stopBtn = null;//ֹͣ
-    private ImageButton latestBtn = null;//��һ��
-    private ImageButton nextBtn = null;//��һ��
-    private ImageButton forwardBtn = null;//���
-    private ImageButton rewindBtn = null;//����
-    private TextView lrcText = null;//����ı�
-    private TextView playtime = null;//�Ѳ���ʱ��
-    private TextView durationTime = null;//����ʱ��
-    private SeekBar seekbar = null;//��������
+    private ImageButton playBtn = null;
+    private ImageButton latestBtn = null;
+    private ImageButton nextBtn = null;
+    private ImageButton forwardBtn = null;
+    private ImageButton rewindBtn = null;
+    private TextView lrcText = null;
+    private TextView playtime = null;
+    private TextView durationTime = null;
+    private SeekBar seekbar = null;
     private SeekBar soundBar = null;//��������
     private Handler handler = null;//���ڽ�����
     private Handler fHandler = null;//���ڿ��
@@ -241,21 +240,15 @@ public class MusicActivity extends Activity {
         init();
     }
 
-    /**
-     * ���ֲ���
-     */
     private void play() {
         flag = STATE_PLAY;
         playBtn.setBackgroundResource(R.drawable.pause_selecor);
-        Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        Intent intent = new Intent(this, MusicService.class);
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_PLAY);
         startService(intent);
     }
 
-    /**
-     * ������ͣ
-     */
     private void pause() {
         flag = STATE_PAUSE;
         playBtn.setBackgroundResource(R.drawable.play_selecor);

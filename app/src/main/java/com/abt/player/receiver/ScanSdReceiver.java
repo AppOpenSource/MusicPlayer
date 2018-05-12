@@ -36,7 +36,7 @@ public class ScanSdReceiver extends BroadcastReceiver {
             builder.setMessage("scanning sdcard...");
             ad = builder.create();
             // hwq aa
-            //context.unregisterReceiver(MainActivity.scanSdReceiver);
+            //context.unregisterReceiver(MainActivity.mScanSdReceiver);
             ad.show();
 
         } else if (Intent.ACTION_MEDIA_SCANNER_FINISHED.equals(action)) {
@@ -51,7 +51,7 @@ public class ScanSdReceiver extends BroadcastReceiver {
             count2 = c2.getCount();
             count = count2 - count1;
             ad.cancel();
-            context.unregisterReceiver(MainActivity.scanSdReceiver);
+            context.unregisterReceiver(MainActivity.mScanSdReceiver);
             if (count >= 0) {
                 Toast.makeText(context, "add" +
                         count + "song", Toast.LENGTH_LONG).show();
