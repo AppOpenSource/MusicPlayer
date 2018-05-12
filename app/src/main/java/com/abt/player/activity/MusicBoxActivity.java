@@ -196,7 +196,6 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         return list;
     }
 
-    /* �������� */
     private void playMusic(int position) {
         Intent intent = new Intent(MusicBoxActivity.this, MusicActivity.class);
         intent.putExtra("_ids", _ids);
@@ -207,14 +206,12 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         finish();
     }
 
-    /* ���б���ɾ��ѡ�е����� */
     private void deleteMusic(int position) {
         this.getContentResolver().delete(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 MediaStore.Audio.Media._ID + "=" + _ids[position], null);
     }
 
-    /* ��sdcard��ɾ��ѡ�е����� */
     private void deleteMusicFile(int position) {
         File file = new File(_path[position]);
         file.delete();
@@ -225,17 +222,14 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position,
                                 long id) {
-            // TODO Auto-generated method stub
             playMusic(position);
         }
-
     }
 
     class ArtistsItemClickListener implements OnItemClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
             Intent intent = new Intent();
             intent.setClass(MusicBoxActivity.this, ArtistActivity.class);
             intent.putExtra("artist", artists[position]);
@@ -246,8 +240,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
     class AlbumsItemClickListener implements OnItemClickListener {
 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
             Intent intent = new Intent();
             intent.setClass(MusicBoxActivity.this, AlbumActivity.class);
             intent.putExtra("albums", albums[position]);
@@ -306,8 +299,8 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(MUSIC_LIST)) {
                 pos = intent.getExtras().getInt("position");
-                adapter.setItemIcon(pos);// �ı��б���ͼ��
-                adapter.notifyDataSetChanged();// ֪ͨUI����
+                adapter.setItemIcon(pos);
+                adapter.notifyDataSetChanged();
                 System.out.println("List Update...");
             }
 
@@ -351,7 +344,6 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         unregisterReceiver(changeItem);
     }
 
-    /* ���������Ĳ˵������� */
     class ContextMenuListener implements OnCreateContextMenuListener {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View view,
@@ -366,25 +358,23 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         }
     }
 
-    /* �����Ĳ˵���ĳһ����ʱ�ص��÷��� */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case PLAY_ITEM: // ��ʼ����
+            case PLAY_ITEM:
                 playMusic(num);
                 break;
-
-            case DELETE_ITEM: // ɾ��һ�׸���
+            case DELETE_ITEM:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("want to delete ?").setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteMusic(num); // ���б���ɾ������
-                                deleteMusicFile(num); // ��sdcard��ɾ������
-                                setListData(); // ���»���б���ҩ��ʾ������
-                                adapter.notifyDataSetChanged(); // �����б�UI
+                                deleteMusic(num);
+                                deleteMusicFile(num);
+                                setListData();
+                                adapter.notifyDataSetChanged();
                             }
                         }).setNegativeButton("No", null);
                 AlertDialog ad = builder.create();
