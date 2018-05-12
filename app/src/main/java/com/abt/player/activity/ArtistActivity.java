@@ -1,12 +1,12 @@
 package com.abt.player.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -20,12 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-import com.abt.player.adapter.MusicListAdapter;
 import com.abt.player.R;
+import com.abt.player.adapter.MusicListAdapter;
 
 import java.io.File;
 
-public class ArtistActivity extends Activity {
+public class ArtistActivity extends AppCompatActivity {
+
     private int[] _ids;
     private String[] _titles;
     private String[] _path;
@@ -91,6 +92,7 @@ public class ArtistActivity extends Activity {
     }
 
     class ContextMenuListener implements OnCreateContextMenuListener {
+
         @Override
         public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo info) {
             menu.setHeaderTitle("Action");
@@ -107,7 +109,6 @@ public class ArtistActivity extends Activity {
             case PLAY_ITEM:
                 playMusic(pos);
                 break;
-
             case DELETE_ITEM:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you really want to delete ? ")
@@ -153,4 +154,5 @@ public class ArtistActivity extends Activity {
         adapter = new MusicListAdapter(this, c);
         listview.setAdapter(adapter);
     }
+
 }
