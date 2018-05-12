@@ -1,6 +1,5 @@
 package com.abt.player.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -22,11 +22,11 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.abt.player.DBHelper;
+import com.abt.player.R;
+import com.abt.player.bean.LRCbean;
 import com.abt.player.global.GlobalConstant;
 import com.abt.player.listener.ChangeGestureListener;
-import com.abt.player.DBHelper;
-import com.abt.player.bean.LRCbean;
-import com.abt.player.R;
 import com.abt.player.service.MusicService;
 
 import java.io.BufferedReader;
@@ -39,7 +39,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-public class MusicActivity extends Activity {
+public class MusicActivity extends AppCompatActivity {
 
     private int[] _ids;
     private int position;
@@ -55,10 +55,10 @@ public class MusicActivity extends Activity {
     private TextView playtime = null;
     private TextView durationTime = null;
     private SeekBar seekbar = null;
-    private SeekBar soundBar = null;//��������
-    private Handler handler = null;//���ڽ�����
-    private Handler fHandler = null;//���ڿ��
-    private int currentPosition;//��ǰ����λ��
+    private SeekBar soundBar = null;
+    private Handler handler = null;
+    private Handler fHandler = null;
+    private int currentPosition;
     private int duration;
     private DBHelper dbHelper = null;
     private TextView name = null;
@@ -81,18 +81,13 @@ public class MusicActivity extends Activity {
     private static final int STATE_PAUSE = 2;
     private int flag;
 
-    //���������ı���
     private AudioManager mAudioManager = null;
-    private int maxVolume;//�������
-    private int currentVolume;//��ǰ����
-
+    private int maxVolume;
+    private int currentVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
-        //ȥ��title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.music_play);
@@ -119,7 +114,6 @@ public class MusicActivity extends Activity {
                     case STATE_PLAY:
                         pause();
                         break;
-
                     case STATE_PAUSE:
                         play();
                         break;
@@ -202,8 +196,6 @@ public class MusicActivity extends Activity {
                 nextOne();
             }
         });
-
-
     }
 
     @Override
@@ -211,7 +203,6 @@ public class MusicActivity extends Activity {
         super.onStart();
         setup();
         play();
-
     }
 
     private void loadClip() {
@@ -253,56 +244,40 @@ public class MusicActivity extends Activity {
         flag = STATE_PAUSE;
         playBtn.setBackgroundResource(R.drawable.play_selecor);
         Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_PAUSE);
         startService(intent);
     }
 
-    /**
-     * ����ֹͣ
-     */
     private void stop() {
         unregisterReceiver(musicReceiver);
         Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_STOP);
         startService(intent);
     }
 
-    /**
-     * �û��϶�������
-     */
     private void seekbar_change(int progress) {
         Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", PROGRESS_CHANGE);
         intent.putExtra("progress", progress);
         startService(intent);
     }
 
-    /**
-     * ����
-     */
     private void rewind() {
         Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_REWIND);
         startService(intent);
     }
 
-    /**
-     * ���
-     */
     private void forward() {
         Intent intent = new Intent();
-        intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_FORWARD);
         startService(intent);
     }
-
-    /**
-     * ��һ��
-     */
 
     public void latestOne() {
         if (position == 0) {
@@ -315,14 +290,11 @@ public class MusicActivity extends Activity {
         play();
     }
 
-    /**
-     * ��һ��
-     */
     public void nextOne() {
         if (_ids.length == 1) {
             position = position;
             Intent intent = new Intent();
-            intent.setAction("com.moore.mp3player.MUSIC_SERVICE");
+            intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
             intent.putExtra("length", 1);
             startService(intent);
             play();
@@ -338,9 +310,6 @@ public class MusicActivity extends Activity {
         play();
     }
 
-    /**
-     * ����musicReceiver,����MusicService���͵Ĺ㲥
-     */
     protected BroadcastReceiver musicReceiver = new BroadcastReceiver() {
 
         @Override
@@ -383,8 +352,6 @@ public class MusicActivity extends Activity {
     protected void onStop() {
         super.onStop();
         unregisterReceiver(musicReceiver);
-
-
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -397,9 +364,6 @@ public class MusicActivity extends Activity {
         return true;
     }
 
-    /**
-     * ��������
-     */
     public boolean dispatchKeyEvent(KeyEvent event) {
         int action = event.getAction();
         int keyCode = event.getKeyCode();
@@ -429,11 +393,6 @@ public class MusicActivity extends Activity {
         }
     }
 
-    /**
-     * �������
-     *
-     * @param path
-     */
     private void read(String path) {
         lrc_map.clear();
         TreeMap<Integer, LRCbean> lrc_read = new TreeMap<Integer, LRCbean>();
@@ -487,7 +446,6 @@ public class MusicActivity extends Activity {
             e.printStackTrace();
         }
 
-        //����ÿ������Ҫ��ʱ��
         lrc_map.clear();
         data = "";
         Iterator<Integer> iterator = lrc_read.keySet().iterator();
@@ -507,12 +465,8 @@ public class MusicActivity extends Activity {
                 oldval = val;
             }
         }
-
     }
 
-    /**
-     * ��ȡsd�����
-     */
     public void refreshView() {
         myCur = getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -531,17 +485,9 @@ public class MusicActivity extends Activity {
         } catch (Exception e) {
             // TODO: handle exception
         }
-
     }
 
-    /**
-     * ʱ���ʽת������
-     *
-     * @param time
-     * @return
-     */
     public String toTime(int time) {
-
         time /= 1000;
         int minute = time / 60;
         int hour = minute / 60;
@@ -557,7 +503,6 @@ public class MusicActivity extends Activity {
                 case STATE_PLAY:
                     pause();
                     break;
-
                 case STATE_PAUSE:
                     play();
                     break;
@@ -565,6 +510,5 @@ public class MusicActivity extends Activity {
         }
         return gestureDetector.onTouchEvent(event);
     }
-
 
 }
