@@ -1,12 +1,12 @@
 package com.abt.player.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -20,12 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-import com.abt.player.adapter.MusicListAdapter;
 import com.abt.player.R;
+import com.abt.player.adapter.MusicListAdapter;
 
 import java.io.File;
 
-public class AlbumActivity extends Activity {
+public class AlbumActivity extends AppCompatActivity {
+
     private int[] _ids;
     private String[] _titles;
     private String[] _path;
@@ -39,16 +40,12 @@ public class AlbumActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // hwq
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Intent intent = this.getIntent();
         albumName = intent.getExtras().getString("albums");
         listview = new ListView(this);
-
-        // hwq
         listview.setCacheColorHint(0);
-
         setListData();
         listview.setOnItemClickListener(new ListItemClickListener());
         listview.setOnCreateContextMenuListener(new ContextMenuListener());
@@ -84,16 +81,13 @@ public class AlbumActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-            // TODO Auto-generated method stub
             playMusic(position);
         }
-
     }
 
     class ContextMenuListener implements OnCreateContextMenuListener {
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View view,
-                                        ContextMenuInfo info) {
+        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo info) {
             menu.setHeaderTitle("Action");
             menu.add(0, PLAY_ITEM, 0, "Play");
             menu.add(0, DELETE_ITEM, 0, "Delete");
@@ -108,7 +102,6 @@ public class AlbumActivity extends Activity {
             case PLAY_ITEM:
                 playMusic(pos);
                 break;
-
             case DELETE_ITEM:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("are you really want to delete ? ")
@@ -154,4 +147,5 @@ public class AlbumActivity extends Activity {
         adapter = new MusicListAdapter(this, c);
         listview.setAdapter(adapter);
     }
+
 }
