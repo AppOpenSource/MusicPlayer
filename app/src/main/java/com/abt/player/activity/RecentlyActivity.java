@@ -1,56 +1,40 @@
 package com.abt.player.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 
 import com.abt.player.DBHelper;
-import com.abt.player.adapter.MusicListAdapter;
 import com.abt.player.R;
+import com.abt.player.adapter.MusicListAdapter;
 
-public class RecentlyActivity extends Activity {
+public class RecentlyActivity extends AppCompatActivity {
+
     private DBHelper dbHelper = null;
     private ListView listview;
     private int[] _ids;
     private String[] _titles;
-    Cursor cursor = null;
-    int[] music_id;
-    //���������ı���
+    private Cursor cursor = null;
+    private int[] music_id;
     private AudioManager mAudioManager = null;
-    private int maxVolume;//�������
-    private int currentVolume;//��ǰ����
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (dbHelper != null) {
-            dbHelper.close();
-            dbHelper = null;
-        }
-        if (cursor != null) {
-            cursor.close();
-            cursor = null;
-        }
-    }
+    private int maxVolume;
+    private int currentVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
-        // hwq
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dbHelper = new DBHelper(this, "music.db", null, 2);
@@ -124,11 +108,23 @@ public class RecentlyActivity extends Activity {
         setContentView(list);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dbHelper != null) {
+            dbHelper.close();
+            dbHelper = null;
+        }
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
+        }
+    }
+
     class ListItemClickListener implements OnItemClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-            // TODO Auto-generated method stub
             Intent intent = new Intent(RecentlyActivity.this, MusicActivity.class);
             intent.putExtra("_ids", _ids);
             intent.putExtra("_titles", _titles);
@@ -136,7 +132,6 @@ public class RecentlyActivity extends Activity {
             startActivity(intent);
             finish();
         }
-
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
