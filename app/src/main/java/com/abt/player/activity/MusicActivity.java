@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.abt.player.DBHelper;
 import com.abt.player.R;
-import com.abt.player.bean.LrcBean;
+import com.abt.player.bean.LRCbean;
 import com.abt.player.global.GlobalConstant;
 import com.abt.player.listener.ChangeGestureListener;
 import com.abt.player.service.MusicService;
@@ -64,7 +64,7 @@ public class MusicActivity extends AppCompatActivity {
     private TextView name = null;
     private GestureDetector gestureDetector;
 
-    private TreeMap<Integer, LrcBean> lrc_map = new TreeMap<Integer, LrcBean>();
+    private TreeMap<Integer, LRCbean> lrc_map = new TreeMap<Integer, LRCbean>();
     private Cursor myCur;
     private static final String MUSIC_CURRENT = "com.alex.currentTime";
     private static final String MUSIC_DURATION = "com.alex.duration";
@@ -208,7 +208,15 @@ public class MusicActivity extends AppCompatActivity {
     private void loadClip() {
         seekbar.setProgress(0);
         //int pos = _ids[position];
-        name.setText(_titles[position] + " - " + artists[position]);//���ø�����
+        String title = "";
+        String artist = "";
+        try {
+            title = _titles[position];
+            artist = artists[position];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        name.setText(title + " - " + artist);
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("_ids", _ids);
         intent.putExtra("position", position);
@@ -322,7 +330,7 @@ public class MusicActivity extends AppCompatActivity {
                 Iterator<Integer> iterator = lrc_map.keySet().iterator();
                 while (iterator.hasNext()) {
                     Object o = iterator.next();
-                    LrcBean val = lrc_map.get(o);
+                    LRCbean val = lrc_map.get(o);
                     if (val != null) {
 
                         if (currentPosition > val.getBeginTime()
@@ -395,7 +403,7 @@ public class MusicActivity extends AppCompatActivity {
 
     private void read(String path) {
         lrc_map.clear();
-        TreeMap<Integer, LrcBean> lrc_read = new TreeMap<Integer, LrcBean>();
+        TreeMap<Integer, LRCbean> lrc_read = new TreeMap<Integer, LRCbean>();
         String data = "";
         BufferedReader br = null;
         File file = new File(path);
@@ -434,7 +442,7 @@ public class MusicActivity extends AppCompatActivity {
                         int ms = Integer.parseInt(lrcTime[2]);//����
 
                         int begintime = (m * 60 + s) * 1000 + ms;//ת���ɺ���
-                        LrcBean lrcbean = new LrcBean();
+                        LRCbean lrcbean = new LRCbean();
                         lrcbean.setBeginTime(begintime);//���ø�ʿ�ʼʱ��
                         lrcbean.setLrcBody(lrcContent);//���ø�ʵ�����
                         lrc_read.put(begintime, lrcbean);
@@ -449,15 +457,15 @@ public class MusicActivity extends AppCompatActivity {
         lrc_map.clear();
         data = "";
         Iterator<Integer> iterator = lrc_read.keySet().iterator();
-        LrcBean oldval = null;
+        LRCbean oldval = null;
         int i = 0;
         while (iterator.hasNext()) {
             Object ob = iterator.next();
-            LrcBean val = lrc_read.get(ob);
+            LRCbean val = lrc_read.get(ob);
             if (oldval == null) {
                 oldval = val;
             } else {
-                LrcBean item1 = new LrcBean();
+                LRCbean item1 = new LRCbean();
                 item1 = oldval;
                 item1.setLineTime(val.getBeginTime() - oldval.getBeginTime());
                 lrc_map.put(new Integer(i), item1);

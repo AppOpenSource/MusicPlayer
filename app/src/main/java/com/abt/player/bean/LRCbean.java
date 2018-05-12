@@ -1,6 +1,6 @@
 package com.abt.player.bean;
 
-public class LrcBean {
+public class LRCbean {
 
     private int beginTime = 0;
     private int lineTime = 0;
