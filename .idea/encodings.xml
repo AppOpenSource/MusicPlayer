@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/AlbumActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/AlbumListAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/ArtistActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/ArtistListAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/ChangeGestureDetector.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/ClicksActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/DBHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/LRCbean.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/MainActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/MusicActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/MusicBoxActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/MusicListAdapter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/MusicService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/RecentlyActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/abt/mp3player/ScanSdReceiver.java" charset="UTF-8" />
+  </component>
+</project>
