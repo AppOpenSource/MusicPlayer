@@ -35,10 +35,8 @@ public class ScanSdReceiver extends BroadcastReceiver {
             builder = new AlertDialog.Builder(context);
             builder.setMessage("scanning sdcard...");
             ad = builder.create();
-            // hwq aa
             //context.unregisterReceiver(MainActivity.mScanSdReceiver);
             ad.show();
-
         } else if (Intent.ACTION_MEDIA_SCANNER_FINISHED.equals(action)) {
             Cursor c2 = context.getContentResolver()
                     .query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

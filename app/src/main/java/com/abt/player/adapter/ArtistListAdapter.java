@@ -40,13 +40,11 @@ public class ArtistListAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(myCon).inflate(R.layout.artistslist,
                 null);
 
-        //��������������
         TextView artist = (TextView) convertView.findViewById(R.id.artist);
         artist.setText(artists[position]);
 
-        //�����б���ͼ��
-        ImageView Artistsitem = (ImageView) convertView.findViewById(R.id.Artistsitem);
-        Artistsitem.setImageResource(R.drawable.artist);
+        ImageView artistsItem = (ImageView) convertView.findViewById(R.id.Artistsitem);
+        artistsItem.setImageResource(R.drawable.artist);
         return convertView;
     }
 

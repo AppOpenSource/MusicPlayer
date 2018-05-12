@@ -36,7 +36,6 @@ public class AlbumListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-
         return position;
     }
 
@@ -62,14 +61,12 @@ public class AlbumListAdapter extends BaseAdapter {
         } else {
             artist.setText(myMap.get(albums[position]));
         }
-
-        ImageView Albumsitem = (ImageView) convertView.findViewById(R.id.Albumsitem);
-        Albumsitem.setImageResource(R.drawable.album);
+        ImageView albumsItem = (ImageView) convertView.findViewById(R.id.Albumsitem);
+        albumsItem.setImageResource(R.drawable.album);
         return convertView;
     }
 
     public static String bSubstring(String s, int length) throws Exception {
-
         byte[] bytes = s.getBytes("Unicode");
         int n = 0;
         int i = 2;
@@ -77,22 +74,17 @@ public class AlbumListAdapter extends BaseAdapter {
             if (i % 2 == 1) {
                 n++;
             } else {
-                // ��UCS2����ĵ�һ���ֽڲ�����0ʱ����UCS2�ַ�Ϊ���֣�һ�������������ֽ�
                 if (bytes[i] != 0) {
                     n++;
                 }
             }
         }
-        // ���iΪ����ʱ�������ż��
         if (i % 2 == 1) {
-            // ��UCS2�ַ��Ǻ���ʱ��ȥ�������һ��ĺ���
             if (bytes[i - 1] != 0)
                 i = i - 1;
-                // ��UCS2�ַ�����ĸ�����֣��������ַ�
             else
                 i = i + 1;
         }
-
         return new String(bytes, 0, i, "Unicode");
     }
 

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 public class DBHelper extends SQLiteOpenHelper {
+
     private Cursor c = null;
     private static final String CREATE_TAB = "create table "
             + "music(_id integer primary key autoincrement,music_id integer,clicks integer," +
@@ -15,8 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAB_NAME = "music";
     private SQLiteDatabase db = null;
 
-    public DBHelper(Context context, String name, CursorFactory factory,
-                    int version) {
+    public DBHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
@@ -52,13 +52,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    public Cursor queryByClicks() {//���������ѯ
+    public Cursor queryByClicks() {
         SQLiteDatabase db = getReadableDatabase();
         c = db.query(TAB_NAME, null, null, null, null, null, "clicks desc");
         return c;
     }
 
-    public Cursor queryRecently() {//��ʱ�併���ѯ
+    public Cursor queryRecently() {
         SQLiteDatabase db = getReadableDatabase();
         c = db.query(TAB_NAME, null, null, null, null, null, "latest desc");
         return c;

@@ -7,7 +7,8 @@ import com.abt.player.activity.MusicActivity;
 
 
 public class ChangeGestureListener extends SimpleOnGestureListener {
-    MusicActivity activity;
+
+    private MusicActivity activity;
 
     public ChangeGestureListener(MusicActivity activity) {
         this.activity = activity;
@@ -25,6 +26,5 @@ public class ChangeGestureListener extends SimpleOnGestureListener {
         }
         return super.onFling(e1, e2, velocityX, velocityY);
     }
-
 
 }

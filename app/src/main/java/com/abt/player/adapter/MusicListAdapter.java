@@ -75,12 +75,6 @@ public class MusicListAdapter extends BaseAdapter {
         pos = position;
     }
 
-    /**
-     * ʱ���ʽת��
-     *
-     * @param time
-     * @return
-     */
     public String toTime(int time) {
         time /= 1000;
         int minute = time / 60;
@@ -90,42 +84,25 @@ public class MusicListAdapter extends BaseAdapter {
         return String.format("%02d:%02d", minute, second);
     }
 
-    /**
-     * �ַ����ü�
-     *
-     * @param s
-     * @param length
-     * @return
-     * @throws Exception
-     */
     public static String bSubstring(String s, int length) throws Exception {
-
         byte[] bytes = s.getBytes("Unicode");
-        int n = 0; // ��ʾ��ǰ���ֽ���
-        int i = 2; // Ҫ��ȡ���ֽ������ӵ�3���ֽڿ�ʼ
+        int n = 0;
+        int i = 2;
         for (; i < bytes.length && n < length; i++) {
-            // ����λ�ã���3��5��7�ȣ�ΪUCS2�����������ֽڵĵڶ����ֽ�
             if (i % 2 == 1) {
-                n++; // ��UCS2�ڶ����ֽ�ʱn��1
+                n++;
             } else {
-                // ��UCS2����ĵ�һ���ֽڲ�����0ʱ����UCS2�ַ�Ϊ���֣�һ�������������ֽ�
                 if (bytes[i] != 0) {
                     n++;
                 }
             }
         }
-        // ���iΪ����ʱ�������ż��
-        if (i % 2 == 1)
-
-        {
-            // ��UCS2�ַ��Ǻ���ʱ��ȥ�������һ��ĺ���
+        if (i % 2 == 1) {
             if (bytes[i - 1] != 0)
                 i = i - 1;
-                // ��UCS2�ַ�����ĸ�����֣��������ַ�
             else
                 i = i + 1;
         }
-
         return new String(bytes, 0, i, "Unicode");
     }
 

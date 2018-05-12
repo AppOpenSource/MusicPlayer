@@ -22,8 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MusicService extends Service implements
-        MediaPlayer.OnCompletionListener {
+public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
 
     private static final String MUSIC_CURRENT = "com.alex.currentTime";
     private static final String MUSIC_DURATION = "com.alex.duration";
@@ -37,15 +36,15 @@ public class MusicService extends Service implements
     private static final int MUSIC_REWIND = 5;
     private static final int MUSIC_FORWARD = 6;
     private MediaPlayer mMediaPlayer = null;
-    int progress;
+    private int progress;
     private Uri uri = null;
     private int id = 10000;
-    private Handler handler = null;
+    private Handler mHandler = null;
     private Handler rHandler = null;
     private Handler fHandler = null;
     private int currentTime;
     private int duration;
-    private DBHelper dbHelper = null;
+    private DBHelper mDbHelper = null;
     private int flag;
     private int position;
     private int _ids[];
@@ -64,7 +63,7 @@ public class MusicService extends Service implements
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.ANSWER");
-        registerReceiver(InComingSMSReceiver, filter);
+        registerReceiver(mInComingSMSReceiver, filter);
 
         rHandler = new Handler();
         fHandler = new Handler();
@@ -73,27 +72,8 @@ public class MusicService extends Service implements
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("Service destroy!");
-        if (mMediaPlayer != null) {
-            mMediaPlayer.stop();
-            mMediaPlayer = null;
-        }
-        if (dbHelper != null) {
-            dbHelper.close();
-            dbHelper = null;
-        }
-        if (handler != null) {
-            handler.removeMessages(1);
-            handler = null;
-        }
-    }
-
-    @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-
         if (intent != null) {
             if ((flag == 0) && (intent.getExtras().getInt("list") == 1)) {
                 System.out.println("Service flag=0");
@@ -118,8 +98,7 @@ public class MusicService extends Service implements
                 id = _id;
                 uri = Uri.withAppendedPath(
                         MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, "" + _id);
-                // hwq
-                // DBOperate(_id);
+                // dbOperate(_id);
                 try {
                     mMediaPlayer.reset();
                     mMediaPlayer.setDataSource(this, uri);
@@ -142,34 +121,33 @@ public class MusicService extends Service implements
             intent1.setAction(MUSIC_LIST);
             intent1.putExtra("position", position);
             sendBroadcast(intent1);
-            System.out.println("Service position:" + position);
         }
 
         int op = intent.getIntExtra("op", -1);
         if (op != -1) {
             switch (op) {
-                case MUSIC_PLAY:// ����
+                case MUSIC_PLAY:
                     if (!mMediaPlayer.isPlaying()) {
                         play();
                     }
                     break;
-                case MUSIC_PAUSE:// ��ͣ
+                case MUSIC_PAUSE:
                     if (mMediaPlayer.isPlaying()) {
                         pause();
                     }
                     break;
-                case MUSIC_STOP:// ֹͣ
+                case MUSIC_STOP:
                     stop();
                     break;
-                case PROGRESS_CHANGE:// �ı��������
+                case PROGRESS_CHANGE:
                     currentTime = intent.getExtras().getInt("progress");
                     mMediaPlayer.seekTo(currentTime);
 
                     break;
-                case MUSIC_REWIND:// ����
+                case MUSIC_REWIND:
                     rewind();
                     break;
-                case MUSIC_FORWARD:// ���
+                case MUSIC_FORWARD:
                     forward();
                     break;
             }
@@ -209,7 +187,7 @@ public class MusicService extends Service implements
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            handler.removeMessages(1);
+            mHandler.removeMessages(1);
             rHandler.removeCallbacks(rewind);
             fHandler.removeCallbacks(forward);
         }
@@ -218,8 +196,8 @@ public class MusicService extends Service implements
     private void init() {
         final Intent intent = new Intent();
         intent.setAction(MUSIC_CURRENT);
-        if (handler == null) {
-            handler = new Handler() {
+        if (mHandler == null) {
+            mHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
@@ -229,7 +207,7 @@ public class MusicService extends Service implements
                             intent.putExtra("currentTime", currentTime);
                             sendBroadcast(intent);
                         }
-                        handler.sendEmptyMessageDelayed(1, 600);
+                        mHandler.sendEmptyMessageDelayed(1, 600);
                     }
                 }
             };
@@ -246,7 +224,7 @@ public class MusicService extends Service implements
             mMediaPlayer.setOnPreparedListener(new OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mMediaPlayer) {
-                    handler.sendEmptyMessage(1);
+                    mHandler.sendEmptyMessage(1);
                 }
             });
         } catch (IllegalStateException e) {
@@ -267,7 +245,7 @@ public class MusicService extends Service implements
         fHandler.post(forward);
     }
 
-    Runnable rewind = new Runnable() {
+    private Runnable rewind = new Runnable() {
 
         @Override
         public void run() {
@@ -280,7 +258,7 @@ public class MusicService extends Service implements
         }
     };
 
-    Runnable forward = new Runnable() {
+    private Runnable forward = new Runnable() {
 
         @Override
         public void run() {
@@ -295,8 +273,8 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mMediaPlayer) {
         /*
-		 * Intent intent = new Intent(); intent.setAction(MUSIC_NEXT);
-		 * sendBroadcast(intent); System.out.println("onCompletion...");
+         * Intent intent = new Intent(); intent.setAction(MUSIC_NEXT);
+		 * sendBroadcast(intent);
 		 */
         if (_ids.length == 1) {
             position = position;
@@ -309,7 +287,7 @@ public class MusicService extends Service implements
         uri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 "" + _ids[position]);
         // hwq
-        // DBOperate(_ids[position]);
+        // dbOperate(_ids[position]);
         id = _ids[position];
         _id = id;
         try {
@@ -319,7 +297,7 @@ public class MusicService extends Service implements
         } catch (Exception e) {
             e.printStackTrace();
         }
-        handler.removeMessages(1);
+        mHandler.removeMessages(1);
         rHandler.removeCallbacks(rewind);
         fHandler.removeCallbacks(forward);
         setup();
@@ -337,9 +315,9 @@ public class MusicService extends Service implements
         sendBroadcast(intent1);
     }
 
-    private void DBOperate(int pos) {
-        dbHelper = new DBHelper(this, "music.db", null, 2);
-        Cursor c = dbHelper.query(pos);
+    private void dbOperate(int pos) {
+        mDbHelper = new DBHelper(this, "music.db", null, 2);
+        Cursor c = mDbHelper.query(pos);
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(currentTime);
@@ -348,7 +326,7 @@ public class MusicService extends Service implements
             values.put("music_id", pos);
             values.put("clicks", 1);
             values.put("latest", dateString);
-            dbHelper.insert(values);
+            mDbHelper.insert(values);
         } else {
             c.moveToNext();
             int clicks = c.getInt(2);
@@ -356,22 +334,21 @@ public class MusicService extends Service implements
             ContentValues values = new ContentValues();
             values.put("clicks", clicks);
             values.put("latest", dateString);
-            dbHelper.update(values, pos);
+            mDbHelper.update(values, pos);
         }
         if (c != null) {
             c.close();
             c = null;
         }
-        if (dbHelper != null) {
-            dbHelper.close();
-            dbHelper = null;
+        if (mDbHelper != null) {
+            mDbHelper.close();
+            mDbHelper = null;
         }
     }
 
-    protected BroadcastReceiver InComingSMSReceiver = new BroadcastReceiver() {
+    protected BroadcastReceiver mInComingSMSReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            System.out.println("android.intent.action.ANSWER");
             if (intent.getAction().equals(Intent.ACTION_ANSWER)) {
                 TelephonyManager telephonymanager = (TelephonyManager) context
                         .getSystemService(Context.TELEPHONY_SERVICE);
@@ -388,5 +365,22 @@ public class MusicService extends Service implements
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
+            mMediaPlayer = null;
+        }
+        if (mDbHelper != null) {
+            mDbHelper.close();
+            mDbHelper = null;
+        }
+        if (mHandler != null) {
+            mHandler.removeMessages(1);
+            mHandler = null;
+        }
+    }
 
 }

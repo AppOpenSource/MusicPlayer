@@ -1,7 +1,10 @@
 package com.abt.player.bean;
 
-public class LRCbean {
+public class LrcBean {
+
     private int beginTime = 0;
+    private int lineTime = 0;
+    private String lrcBody = null;
 
     public int getBeginTime() {
         return beginTime;
@@ -26,8 +29,5 @@ public class LRCbean {
     public void setLrcBody(String lrcBody) {
         this.lrcBody = lrcBody;
     }
-
-    private int lineTime = 0;
-    private String lrcBody = null;
 
 }
