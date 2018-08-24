@@ -1,4 +1,4 @@
-package com.abt.player.activity;
+package com.abt.player.ui.activity;
 
 import android.app.AlertDialog;
 import android.app.TabActivity;
@@ -27,10 +27,10 @@ import android.widget.ListView;
 import android.widget.TabHost;
 
 import com.abt.player.R;
-import com.abt.player.adapter.AlbumListAdapter;
-import com.abt.player.adapter.ArtistListAdapter;
-import com.abt.player.adapter.MusicListAdapter;
-import com.abt.player.global.GlobalConstant;
+import com.abt.player.ui.adapter.AlbumListAdapter;
+import com.abt.player.ui.adapter.ArtistListAdapter;
+import com.abt.player.ui.adapter.MusicListAdapter;
+import com.abt.player.app.GlobalConstant;
 import com.abt.player.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 

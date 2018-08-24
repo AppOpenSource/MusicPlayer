@@ -1,4 +1,4 @@
-package com.abt.player.global;
+package com.abt.player.app;
 
 /**
  * Created by huangweiqi on 13/05/2018.

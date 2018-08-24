@@ -1,4 +1,4 @@
-package com.abt.player.activity;
+package com.abt.player.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -21,7 +21,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
 import com.abt.player.R;
-import com.abt.player.adapter.MusicListAdapter;
+import com.abt.player.ui.adapter.MusicListAdapter;
 
 import java.io.File;
 

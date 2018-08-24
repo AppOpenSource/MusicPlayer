@@ -1,4 +1,4 @@
-package com.abt.player.activity;
+package com.abt.player.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,69 +16,69 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
-import com.abt.player.DBHelper;
+import com.abt.player.core.DBHelper;
 import com.abt.player.R;
-import com.abt.player.adapter.MusicListAdapter;
+import com.abt.player.ui.adapter.MusicListAdapter;
 
-public class ClicksActivity extends AppCompatActivity {
+public class RecentlyActivity extends AppCompatActivity {
 
-    private DBHelper mDbHelper = null;
-    private ListView mListView;
-    private String[] _titles;
-    private Cursor mCursor = null;
-    private AudioManager mAudioManager = null;
+    private DBHelper dbHelper = null;
+    private ListView listview;
     private int[] _ids;
-    private int[] mMusicId;
-    private int mMaxVolume;
-    private int mCurrentVolume;
+    private String[] _titles;
+    private Cursor cursor = null;
+    private int[] music_id;
+    private AudioManager mAudioManager = null;
+    private int maxVolume;
+    private int currentVolume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        mDbHelper = new DBHelper(this, "music.db", null, 2);
-        mCursor = mDbHelper.queryByClicks();
-        mCursor.moveToFirst();
+        dbHelper = new DBHelper(this, "music.db", null, 2);
+        cursor = dbHelper.queryRecently();
+        cursor.moveToFirst();
         int num;
-        if (mCursor != null) {
-            num = mCursor.getCount();
+        if (cursor != null) {
+            num = cursor.getCount();
         } else {
             return;
         }
         String idString = "";
         if (num >= 10) {
             for (int i = 0; i < 10; i++) {
-                mMusicId = new int[10];
-                mMusicId[i] = mCursor.getInt(mCursor.getColumnIndex("mMusicId"));
+                music_id = new int[10];
+                music_id[i] = cursor.getInt(cursor.getColumnIndex("mMusicId"));
                 if (i < 9) {
-                    idString = idString + mMusicId[i] + ",";
+                    idString = idString + music_id[i] + ",";
                 } else {
-                    idString = idString + mMusicId[i];
+                    idString = idString + music_id[i];
                 }
-                mCursor.moveToNext();
+                cursor.moveToNext();
             }
         } else if (num > 0) {
             for (int i = 0; i < num; i++) {
-                mMusicId = new int[num];
-                mMusicId[i] = mCursor.getInt(mCursor.getColumnIndex("mMusicId"));
+                music_id = new int[num];
+                music_id[i] = cursor.getInt(cursor.getColumnIndex("mMusicId"));
                 if (i < num - 1) {
-                    idString = idString + mMusicId[i] + ",";
+                    idString = idString + music_id[i] + ",";
                 } else {
-                    idString = idString + mMusicId[i];
+                    idString = idString + music_id[i];
                 }
-                mCursor.moveToNext();
+                cursor.moveToNext();
             }
         }
-        if (mCursor != null) {
-            mCursor.close();
-            mCursor = null;
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
         }
-        if (mDbHelper != null) {
-            mDbHelper.close();
-            mDbHelper = null;
+        if (dbHelper != null) {
+            dbHelper.close();
+            dbHelper = null;
         }
-        mListView = new ListView(this);
+        listview = new ListView(this);
         Cursor c = this.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Media.TITLE,
                         MediaStore.Audio.Media.DURATION,
@@ -92,39 +92,40 @@ public class ClicksActivity extends AppCompatActivity {
         for (int i = 0; i < c.getCount(); i++) {
             _ids[i] = c.getInt(3);
             _titles[i] = c.getString(0);
+
             c.moveToNext();
         }
-        mListView.setAdapter(new MusicListAdapter(this, c));
-        mListView.setOnItemClickListener(new ListItemClickListener());
-
+        listview.setAdapter(new MusicListAdapter(this, c));
+        listview.setOnItemClickListener(new ListItemClickListener());
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mMaxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
-        mCurrentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
+        maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);//����������
+        currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);//��õ�ǰ����
         LinearLayout list = new LinearLayout(this);
         list.setBackgroundResource(R.drawable.listbg);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-        list.addView(mListView, params);
+        list.addView(listview, params);
         setContentView(list);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mDbHelper != null) {
-            mDbHelper.close();
-            mDbHelper = null;
+        if (dbHelper != null) {
+            dbHelper.close();
+            dbHelper = null;
         }
-        if (mCursor != null) {
-            mCursor.close();
-            mCursor = null;
+        if (cursor != null) {
+            cursor.close();
+            cursor = null;
         }
     }
 
     class ListItemClickListener implements OnItemClickListener {
+
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-            Intent intent = new Intent(ClicksActivity.this, MusicActivity.class);
+            Intent intent = new Intent(RecentlyActivity.this, MusicActivity.class);
             intent.putExtra("_ids", _ids);
             intent.putExtra("_titles", _titles);
             intent.putExtra("position", position);
@@ -149,21 +150,21 @@ public class ClicksActivity extends AppCompatActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_UP) {
-                    if (mCurrentVolume < mMaxVolume) {
-                        mCurrentVolume = mCurrentVolume + 1;
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
+                    if (currentVolume < maxVolume) {
+                        currentVolume = currentVolume + 1;
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
                     } else {
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
                     }
                 }
                 return false;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_UP) {
-                    if (mCurrentVolume > 0) {
-                        mCurrentVolume = mCurrentVolume - 1;
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
+                    if (currentVolume > 0) {
+                        currentVolume = currentVolume - 1;
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
                     } else {
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mCurrentVolume, 0);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
                     }
                 }
                 return false;
@@ -172,5 +173,3 @@ public class ClicksActivity extends AppCompatActivity {
         }
     }
 }
-
-

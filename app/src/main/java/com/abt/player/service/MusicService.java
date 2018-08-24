@@ -16,7 +16,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 
-import com.abt.player.DBHelper;
+import com.abt.player.core.DBHelper;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

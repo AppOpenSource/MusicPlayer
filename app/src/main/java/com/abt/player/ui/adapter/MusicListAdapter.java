@@ -1,4 +1,4 @@
-package com.abt.player.adapter;
+package com.abt.player.ui.adapter;
 
 import android.content.Context;
 import android.database.Cursor;

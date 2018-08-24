@@ -1,4 +1,4 @@
-package com.abt.player;
+package com.abt.player.core;
 
 import android.content.ContentValues;
 import android.content.Context;

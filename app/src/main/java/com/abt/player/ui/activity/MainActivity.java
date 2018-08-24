@@ -1,4 +1,4 @@
-package com.abt.player.activity;
+package com.abt.player.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.abt.player.R;
-import com.abt.player.global.GlobalConstant;
+import com.abt.player.app.GlobalConstant;
 import com.abt.player.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 

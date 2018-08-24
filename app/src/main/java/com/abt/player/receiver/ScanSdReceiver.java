@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.abt.player.activity.MainActivity;
+import com.abt.player.ui.activity.MainActivity;
 
 public class ScanSdReceiver extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package com.abt.player.activity;
+package com.abt.player.ui.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,10 +22,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.abt.player.DBHelper;
+import com.abt.player.core.DBHelper;
 import com.abt.player.R;
 import com.abt.player.core.bean.LRCbean;
-import com.abt.player.global.GlobalConstant;
+import com.abt.player.app.GlobalConstant;
 import com.abt.player.listener.ChangeGestureListener;
 import com.abt.player.service.MusicService;
 

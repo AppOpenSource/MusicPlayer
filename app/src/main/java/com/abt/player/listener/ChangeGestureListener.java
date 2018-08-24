@@ -3,8 +3,7 @@ package com.abt.player.listener;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
-import com.abt.player.activity.MusicActivity;
-
+import com.abt.player.ui.activity.MusicActivity;
 
 public class ChangeGestureListener extends SimpleOnGestureListener {
 
