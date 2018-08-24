@@ -10,8 +10,7 @@
     <application
         android:icon="@drawable/app_music"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat"
-        android:name=".MusicApplication" >
+        android:theme="@style/Theme.AppCompat" >
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

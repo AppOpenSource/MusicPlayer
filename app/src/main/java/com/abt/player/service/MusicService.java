@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
+public class MusicService extends Service implements
+        MediaPlayer.OnCompletionListener {
 
     private static final String MUSIC_CURRENT = "com.alex.currentTime";
     private static final String MUSIC_DURATION = "com.alex.duration";
