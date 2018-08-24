@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.abt.player.DBHelper;
 import com.abt.player.R;
-import com.abt.player.bean.LRCbean;
+import com.abt.player.core.bean.LRCbean;
 import com.abt.player.global.GlobalConstant;
 import com.abt.player.listener.ChangeGestureListener;
 import com.abt.player.service.MusicService;

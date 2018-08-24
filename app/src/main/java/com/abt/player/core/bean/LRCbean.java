@@ -1,4 +1,4 @@
-package com.abt.player.bean;
+package com.abt.player.core.bean;
 
 public class LRCbean {
 
