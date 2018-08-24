@@ -30,7 +30,7 @@ import com.abt.player.R;
 import com.abt.player.ui.adapter.AlbumListAdapter;
 import com.abt.player.ui.adapter.ArtistListAdapter;
 import com.abt.player.ui.adapter.MusicListAdapter;
-import com.abt.player.app.GlobalConstant;
+import com.abt.player.app.Constants;
 import com.abt.player.ui.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 
@@ -72,7 +72,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
         th.addTab(th.newTabSpec("albums").setIndicator("Album").setContent(this));
 
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("list", 1);
         startService(intent);
     }
@@ -80,7 +80,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
     @Override
     protected void onStart() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(GlobalConstant.MUSIC_LIST);
+        filter.addAction(Constants.MUSIC_LIST);
         registerReceiver(changeItem, filter);
         super.onStart();
     }
@@ -296,7 +296,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(GlobalConstant.MUSIC_LIST)) {
+            if (intent.getAction().equals(Constants.MUSIC_LIST)) {
                 pos = intent.getExtras().getInt("position");
                 adapter.setItemIcon(pos);
                 adapter.notifyDataSetChanged();

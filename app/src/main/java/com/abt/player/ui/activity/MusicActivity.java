@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.abt.player.core.DBHelper;
 import com.abt.player.R;
 import com.abt.player.core.bean.LRCbean;
-import com.abt.player.app.GlobalConstant;
+import com.abt.player.app.Constants;
 import com.abt.player.ui.listener.ChangeGestureListener;
 import com.abt.player.service.MusicService;
 
@@ -216,16 +216,16 @@ public class MusicActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("_ids", _ids);
         intent.putExtra("position", position);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         startService(intent);
     }
 
     private void init() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(GlobalConstant.MUSIC_CURRENT);
-        filter.addAction(GlobalConstant.MUSIC_DURATION);
-        filter.addAction(GlobalConstant.MUSIC_NEXT);
-        filter.addAction(GlobalConstant.MUSIC_UPDATE);
+        filter.addAction(Constants.MUSIC_CURRENT);
+        filter.addAction(Constants.MUSIC_DURATION);
+        filter.addAction(Constants.MUSIC_NEXT);
+        filter.addAction(Constants.MUSIC_UPDATE);
         registerReceiver(musicReceiver, filter);
     }
 
@@ -239,7 +239,7 @@ public class MusicActivity extends AppCompatActivity {
         flag = STATE_PLAY;
         playBtn.setBackgroundResource(R.drawable.pause_selecor);
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_PLAY);
         startService(intent);
     }
@@ -248,7 +248,7 @@ public class MusicActivity extends AppCompatActivity {
         flag = STATE_PAUSE;
         playBtn.setBackgroundResource(R.drawable.play_selecor);
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_PAUSE);
         startService(intent);
     }
@@ -256,14 +256,14 @@ public class MusicActivity extends AppCompatActivity {
     private void stop() {
         unregisterReceiver(musicReceiver);
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_STOP);
         startService(intent);
     }
 
     private void seekbarChange(int progress) {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", PROGRESS_CHANGE);
         intent.putExtra("progress", progress);
         startService(intent);
@@ -271,14 +271,14 @@ public class MusicActivity extends AppCompatActivity {
 
     private void rewind() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_REWIND);
         startService(intent);
     }
 
     private void forward() {
         Intent intent = new Intent(this, MusicService.class);
-        intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+        intent.setAction(Constants.MUSIC_SERVICE_ACTION);
         intent.putExtra("op", MUSIC_FORWARD);
         startService(intent);
     }
@@ -298,7 +298,7 @@ public class MusicActivity extends AppCompatActivity {
         if (_ids.length == 1) {
             position = position;
             Intent intent = new Intent();
-            intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+            intent.setAction(Constants.MUSIC_SERVICE_ACTION);
             intent.putExtra("length", 1);
             startService(intent);
             play();
@@ -319,7 +319,7 @@ public class MusicActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(GlobalConstant.MUSIC_CURRENT)) {
+            if (action.equals(Constants.MUSIC_CURRENT)) {
                 currentPosition = intent.getExtras().getInt("currentTime");//��õ�ǰ����λ��
                 playtime.setText(toTime(currentPosition));
                 seekbar.setProgress(currentPosition);
@@ -336,14 +336,14 @@ public class MusicActivity extends AppCompatActivity {
                         }
                     }
                 }
-            } else if (action.equals(GlobalConstant.MUSIC_DURATION)) {
+            } else if (action.equals(Constants.MUSIC_DURATION)) {
                 duration = intent.getExtras().getInt("duration");
                 seekbar.setMax(duration);
                 durationTime.setText(toTime(duration));
 
-            } else if (action.equals(GlobalConstant.MUSIC_NEXT)) {
+            } else if (action.equals(Constants.MUSIC_NEXT)) {
                 nextOne();
-            } else if (action.equals(GlobalConstant.MUSIC_UPDATE)) {
+            } else if (action.equals(Constants.MUSIC_UPDATE)) {
                 position = intent.getExtras().getInt("position");
                 //refreshView();
                 //name.setText([position]);

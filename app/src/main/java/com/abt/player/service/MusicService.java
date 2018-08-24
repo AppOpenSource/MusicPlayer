@@ -16,7 +16,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 
-import com.abt.player.app.GlobalConstant;
+import com.abt.player.app.Constants;
 import com.abt.player.core.DBHelper;
 
 import java.io.IOException;
@@ -115,7 +115,7 @@ public class MusicService extends Service implements
         init();
         if (position != -1) {
             Intent intent1 = new Intent();
-            intent1.setAction(GlobalConstant.MUSIC_LIST);
+            intent1.setAction(Constants.MUSIC_LIST);
             intent1.putExtra("position", position);
             sendBroadcast(intent1);
         }
@@ -192,7 +192,7 @@ public class MusicService extends Service implements
 
     private void init() {
         final Intent intent = new Intent();
-        intent.setAction(GlobalConstant.MUSIC_CURRENT);
+        intent.setAction(Constants.MUSIC_CURRENT);
         if (mHandler == null) {
             mHandler = new Handler() {
                 @Override
@@ -213,7 +213,7 @@ public class MusicService extends Service implements
 
     private void setup() {
         final Intent intent = new Intent();
-        intent.setAction(GlobalConstant.MUSIC_DURATION);
+        intent.setAction(Constants.MUSIC_DURATION);
         try {
             if (!mMediaPlayer.isPlaying()) {
                 mMediaPlayer.prepare();
@@ -302,12 +302,12 @@ public class MusicService extends Service implements
         play();
 
         Intent intent = new Intent();
-        intent.setAction(GlobalConstant.MUSIC_LIST);
+        intent.setAction(Constants.MUSIC_LIST);
         intent.putExtra("position", position);
         sendBroadcast(intent);
 
         Intent intent1 = new Intent();
-        intent1.setAction(GlobalConstant.MUSIC_UPDATE);
+        intent1.setAction(Constants.MUSIC_UPDATE);
         intent1.putExtra("position", position);
         sendBroadcast(intent1);
     }

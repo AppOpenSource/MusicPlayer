@@ -22,7 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.abt.player.R;
-import com.abt.player.app.GlobalConstant;
+import com.abt.player.app.Constants;
 import com.abt.player.ui.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mScanSdReceiver != null) unregisterReceiver(mScanSdReceiver);
                 this.finish();
                 Intent intent = new Intent(this, MusicService.class);
-                intent.setAction(GlobalConstant.MUSIC_SERVICE_ACTION);
+                intent.setAction(Constants.MUSIC_SERVICE_ACTION);
                 stopService(intent);
                 break;
             default:
