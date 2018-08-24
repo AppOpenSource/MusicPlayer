@@ -22,7 +22,7 @@ public class DbHelperImpl implements DbHelper {
     private String data;
     private Music music;
 
-    //@Inject
+    @Inject
     DbHelperImpl() {
         daoSession = MusicPlayerApp.getInstance().getDaoSession();
     }

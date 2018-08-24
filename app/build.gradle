@@ -36,5 +36,14 @@ dependencies {
         force = true
     }
 
+    //dao
     implementation rootProject.ext.dependencies["greendao"]
+
+    //di
+    implementation rootProject.ext.dependencies["dagger"]
+    annotationProcessor rootProject.ext.dependencies["dagger-compiler"]
+    implementation rootProject.ext.dependencies["dagger-android"]
+    implementation rootProject.ext.dependencies["dagger-android-support"]
+    annotationProcessor rootProject.ext.dependencies["dagger-android-processor"]
+
 }
