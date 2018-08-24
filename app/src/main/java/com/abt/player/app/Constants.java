@@ -5,6 +5,8 @@ package com.abt.player.app;
  */
 public class Constants {
 
+    static final String DB_NAME = "music.db";
+
     public static final String MUSIC_SERVICE_ACTION = "com.abt.player.MUSIC_SERVICE";
 
     public static final String MUSIC_CURRENT = "com.alex.currentTime";
