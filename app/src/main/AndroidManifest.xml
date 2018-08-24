@@ -12,29 +12,14 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat" >
 
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.MusicBoxActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.activity.ClicksActivity"
-            android:label="Recent frequently play list">
-        </activity>
-
-        <activity
-            android:name=".ui.activity.RecentlyActivity"
-            android:label="Recent play list">
-        </activity>
-
         <activity android:name=".ui.activity.MusicActivity"></activity>
-
-        <activity android:name=".ui.activity.MusicBoxActivity"></activity>
-
         <activity android:name=".ui.activity.ArtistActivity"></activity>
-
         <activity android:name=".ui.activity.AlbumActivity"></activity>
 
         <service android:name=".service.MusicService">
@@ -42,6 +27,17 @@
                 <action android:name="com.abt.player.MUSIC_SERVICE" />
             </intent-filter>
         </service>
+
+        <!-- 暂时用不上
+        <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity
+            android:name=".ui.activity.MostPlayActivity"
+            android:label="Most play list">
+        </activity>
+        <activity
+            android:name=".ui.activity.RecentlyActivity"
+            android:label="Recent play list">
+        </activity> -->
 
     </application>
 

@@ -41,7 +41,6 @@ import java.util.Iterator;
 
 public class MusicBoxActivity extends TabActivity implements TabHost.TabContentFactory {
 
-    private static final String MUSIC_LIST = "com.moore.list";
     private ListView listview;
     private int[] _ids;
     private String[] _titles;
@@ -81,7 +80,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
     @Override
     protected void onStart() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MUSIC_LIST);
+        filter.addAction(GlobalConstant.MUSIC_LIST);
         registerReceiver(changeItem, filter);
         super.onStart();
     }
@@ -297,7 +296,7 @@ public class MusicBoxActivity extends TabActivity implements TabHost.TabContentF
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(MUSIC_LIST)) {
+            if (intent.getAction().equals(GlobalConstant.MUSIC_LIST)) {
                 pos = intent.getExtras().getInt("position");
                 adapter.setItemIcon(pos);
                 adapter.notifyDataSetChanged();

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         mIntent = new Intent();
-                        mIntent.setClass(MainActivity.this, ClicksActivity.class);
+                        mIntent.setClass(MainActivity.this, MostPlayActivity.class);
                         startActivity(mIntent);
                         finish();
                         break;

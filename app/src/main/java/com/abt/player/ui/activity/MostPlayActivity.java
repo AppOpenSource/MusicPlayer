@@ -20,7 +20,7 @@ import com.abt.player.core.DBHelper;
 import com.abt.player.R;
 import com.abt.player.ui.adapter.MusicListAdapter;
 
-public class ClicksActivity extends AppCompatActivity {
+public class MostPlayActivity extends AppCompatActivity {
 
     private DBHelper mDbHelper = null;
     private ListView mListView;
@@ -124,7 +124,7 @@ public class ClicksActivity extends AppCompatActivity {
     class ListItemClickListener implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-            Intent intent = new Intent(ClicksActivity.this, MusicActivity.class);
+            Intent intent = new Intent(MostPlayActivity.this, MusicActivity.class);
             intent.putExtra("_ids", _ids);
             intent.putExtra("_titles", _titles);
             intent.putExtra("position", position);
