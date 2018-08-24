@@ -8,6 +8,8 @@ import com.abt.player.core.dao.MusicDao;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * @描述： @DbHelperImpl
  * @作者： @黄卫旗

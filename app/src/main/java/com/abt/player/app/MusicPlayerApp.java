@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.abt.player.core.dao.DaoMaster;
 import com.abt.player.core.dao.DaoSession;
+import com.abt.player.di.component.DaggerAppComponent;
+import com.abt.player.di.module.AppModule;
 
 /**
  * @描述： @MusicPlayerApp
@@ -23,7 +25,9 @@ public class MusicPlayerApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(instance))
+                .build().inject(this);
         instance = this;
 
         initGreenDao();
