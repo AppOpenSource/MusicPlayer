@@ -31,7 +31,7 @@ import com.abt.player.ui.adapter.AlbumListAdapter;
 import com.abt.player.ui.adapter.ArtistListAdapter;
 import com.abt.player.ui.adapter.MusicListAdapter;
 import com.abt.player.app.GlobalConstant;
-import com.abt.player.receiver.ScanSdReceiver;
+import com.abt.player.ui.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 
 import java.io.File;

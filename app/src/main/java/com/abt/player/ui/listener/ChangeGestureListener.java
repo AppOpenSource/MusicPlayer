@@ -1,4 +1,4 @@
-package com.abt.player.listener;
+package com.abt.player.ui.listener;
 
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;

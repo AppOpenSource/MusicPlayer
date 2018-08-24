@@ -6,6 +6,11 @@ package com.abt.player.app;
 public class GlobalConstant {
 
     public static final String MUSIC_SERVICE_ACTION = "com.abt.player.MUSIC_SERVICE";
+
+    public static final String MUSIC_CURRENT = "com.alex.currentTime";
+    public static final String MUSIC_DURATION = "com.alex.duration";
+    public static final String MUSIC_NEXT = "com.alex.next";
+    public static final String MUSIC_UPDATE = "com.alex.update";
     public static final String MUSIC_LIST = "com.moore.list";
 
 }

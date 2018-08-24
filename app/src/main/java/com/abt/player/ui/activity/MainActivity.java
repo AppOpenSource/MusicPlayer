@@ -23,7 +23,7 @@ import android.widget.ListView;
 
 import com.abt.player.R;
 import com.abt.player.app.GlobalConstant;
-import com.abt.player.receiver.ScanSdReceiver;
+import com.abt.player.ui.receiver.ScanSdReceiver;
 import com.abt.player.service.MusicService;
 
 import java.io.File;

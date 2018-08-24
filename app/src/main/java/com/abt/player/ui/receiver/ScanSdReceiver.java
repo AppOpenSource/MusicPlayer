@@ -1,4 +1,4 @@
-package com.abt.player.receiver;
+package com.abt.player.ui.receiver;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;

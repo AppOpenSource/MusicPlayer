@@ -16,6 +16,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 
+import com.abt.player.app.GlobalConstant;
 import com.abt.player.core.DBHelper;
 
 import java.io.IOException;
@@ -25,11 +26,6 @@ import java.util.Date;
 public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener {
 
-    private static final String MUSIC_CURRENT = "com.alex.currentTime";
-    private static final String MUSIC_DURATION = "com.alex.duration";
-    private static final String MUSIC_NEXT = "com.alex.next";
-    private static final String MUSIC_UPDATE = "com.alex.update";
-    private static final String MUSIC_LIST = "com.moore.list";
     private static final int MUSIC_PLAY = 1;
     private static final int MUSIC_PAUSE = 2;
     private static final int MUSIC_STOP = 3;
@@ -119,7 +115,7 @@ public class MusicService extends Service implements
         init();
         if (position != -1) {
             Intent intent1 = new Intent();
-            intent1.setAction(MUSIC_LIST);
+            intent1.setAction(GlobalConstant.MUSIC_LIST);
             intent1.putExtra("position", position);
             sendBroadcast(intent1);
         }
@@ -196,7 +192,7 @@ public class MusicService extends Service implements
 
     private void init() {
         final Intent intent = new Intent();
-        intent.setAction(MUSIC_CURRENT);
+        intent.setAction(GlobalConstant.MUSIC_CURRENT);
         if (mHandler == null) {
             mHandler = new Handler() {
                 @Override
@@ -217,7 +213,7 @@ public class MusicService extends Service implements
 
     private void setup() {
         final Intent intent = new Intent();
-        intent.setAction(MUSIC_DURATION);
+        intent.setAction(GlobalConstant.MUSIC_DURATION);
         try {
             if (!mMediaPlayer.isPlaying()) {
                 mMediaPlayer.prepare();
@@ -306,12 +302,12 @@ public class MusicService extends Service implements
         play();
 
         Intent intent = new Intent();
-        intent.setAction(MUSIC_LIST);
+        intent.setAction(GlobalConstant.MUSIC_LIST);
         intent.putExtra("position", position);
         sendBroadcast(intent);
 
         Intent intent1 = new Intent();
-        intent1.setAction(MUSIC_UPDATE);
+        intent1.setAction(GlobalConstant.MUSIC_UPDATE);
         intent1.putExtra("position", position);
         sendBroadcast(intent1);
     }

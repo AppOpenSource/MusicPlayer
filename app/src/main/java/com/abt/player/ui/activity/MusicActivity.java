@@ -26,7 +26,7 @@ import com.abt.player.core.DBHelper;
 import com.abt.player.R;
 import com.abt.player.core.bean.LRCbean;
 import com.abt.player.app.GlobalConstant;
-import com.abt.player.listener.ChangeGestureListener;
+import com.abt.player.ui.listener.ChangeGestureListener;
 import com.abt.player.service.MusicService;
 
 import java.io.BufferedReader;
@@ -66,10 +66,6 @@ public class MusicActivity extends AppCompatActivity {
 
     private TreeMap<Integer, LRCbean> lrc_map = new TreeMap<Integer, LRCbean>();
     private Cursor myCur;
-    private static final String MUSIC_CURRENT = "com.alex.currentTime";
-    private static final String MUSIC_DURATION = "com.alex.duration";
-    private static final String MUSIC_NEXT = "com.alex.next";
-    private static final String MUSIC_UPDATE = "com.alex.update";
     private static final int MUSIC_PLAY = 1;
     private static final int MUSIC_PAUSE = 2;
     private static final int MUSIC_STOP = 3;
@@ -226,10 +222,10 @@ public class MusicActivity extends AppCompatActivity {
 
     private void init() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(MUSIC_CURRENT);
-        filter.addAction(MUSIC_DURATION);
-        filter.addAction(MUSIC_NEXT);
-        filter.addAction(MUSIC_UPDATE);
+        filter.addAction(GlobalConstant.MUSIC_CURRENT);
+        filter.addAction(GlobalConstant.MUSIC_DURATION);
+        filter.addAction(GlobalConstant.MUSIC_NEXT);
+        filter.addAction(GlobalConstant.MUSIC_UPDATE);
         registerReceiver(musicReceiver, filter);
     }
 
@@ -323,7 +319,7 @@ public class MusicActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(MUSIC_CURRENT)) {
+            if (action.equals(GlobalConstant.MUSIC_CURRENT)) {
                 currentPosition = intent.getExtras().getInt("currentTime");//��õ�ǰ����λ��
                 playtime.setText(toTime(currentPosition));
                 seekbar.setProgress(currentPosition);
@@ -340,14 +336,14 @@ public class MusicActivity extends AppCompatActivity {
                         }
                     }
                 }
-            } else if (action.equals(MUSIC_DURATION)) {
+            } else if (action.equals(GlobalConstant.MUSIC_DURATION)) {
                 duration = intent.getExtras().getInt("duration");
                 seekbar.setMax(duration);
                 durationTime.setText(toTime(duration));
 
-            } else if (action.equals(MUSIC_NEXT)) {
+            } else if (action.equals(GlobalConstant.MUSIC_NEXT)) {
                 nextOne();
-            } else if (action.equals(MUSIC_UPDATE)) {
+            } else if (action.equals(GlobalConstant.MUSIC_UPDATE)) {
                 position = intent.getExtras().getInt("position");
                 //refreshView();
                 //name.setText([position]);
